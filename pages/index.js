@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { getMovies } from '../actions';
 import { initialState, reducer } from '../reducer';
 import { GET_MOVIE_REQUEST, GET_MOVIE, GET_MOVIE_FAILURE } from '../constant';
+import '../styles.scss';
 
 export default function Index() {
     const [movie, setMovie] = useState('spiderman');
@@ -46,7 +47,11 @@ export default function Index() {
                 <>
                     {state.data.length > 0 ? (
                         state.data.map((item, index) => (
-                            <Link key={index} href="/detail/[id]" as={`detail/${item.imdbID}`}>
+                            <Link
+                                key={index}
+                                href="/detail/[id]"
+                                as={`detail/${item.imdbID}`}
+                            >
                                 <Card
                                     style={{ width: 300 }}
                                     cover={
