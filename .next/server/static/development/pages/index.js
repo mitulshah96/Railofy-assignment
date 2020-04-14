@@ -1866,10 +1866,17 @@ function Index() {
       const response = await (await Object(_actions__WEBPACK_IMPORTED_MODULE_3__["getMovies"])({
         movie
       })).json();
-      dispatch({
-        type: _constant__WEBPACK_IMPORTED_MODULE_5__["GET_MOVIE"],
-        payload: response
-      });
+
+      if (response.Response === 'False') {
+        dispatch({
+          type: _constant__WEBPACK_IMPORTED_MODULE_5__["GET_MOVIE_FAILURE"]
+        });
+      } else {
+        dispatch({
+          type: _constant__WEBPACK_IMPORTED_MODULE_5__["GET_MOVIE"],
+          payload: response
+        });
+      }
     } catch (error) {
       dispatch({
         type: _constant__WEBPACK_IMPORTED_MODULE_5__["GET_MOVIE_FAILURE"]
@@ -1882,19 +1889,19 @@ function Index() {
   }, [movie]);
   return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(Search, {
     placeholder: "input search text",
-    onSearch: value => setMovie(value),
-    enterButton: true,
+    onSearch: value => setMovie(value.trim()),
+    enterButton: false,
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38,
+      lineNumber: 45,
       columnNumber: 13
     }
   }), state.loading ? __jsx("div", {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44,
+      lineNumber: 51,
       columnNumber: 17
     }
   }, "Loading") : __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, state.data.length > 0 ? state.data.map((item, index) => __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -1904,7 +1911,7 @@ function Index() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 49,
+      lineNumber: 56,
       columnNumber: 29
     }
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -1920,14 +1927,14 @@ function Index() {
       __self: this,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 53,
+        lineNumber: 64,
         columnNumber: 41
       }
     }),
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50,
+      lineNumber: 61,
       columnNumber: 33
     }
   }, __jsx(Meta, {
@@ -1936,14 +1943,14 @@ function Index() {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 64,
+      lineNumber: 75,
       columnNumber: 37
     }
   })))) : __jsx("div", {
     __self: this,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 72,
+      lineNumber: 83,
       columnNumber: 25
     }
   }, "No data found")));
@@ -1991,7 +1998,9 @@ function reducer(state, action) {
 
     case _constant__WEBPACK_IMPORTED_MODULE_0__["GET_MOVIE_FAILURE"]:
       return _objectSpread({}, state, {
-        loaded: true
+        loading: false,
+        loaded: true,
+        data: []
       });
 
     default:

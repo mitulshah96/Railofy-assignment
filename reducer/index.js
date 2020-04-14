@@ -23,7 +23,9 @@ export function reducer(state, action) {
         case GET_MOVIE_FAILURE:
             return {
                 ...state,
+                loading: false,
                 loaded: true,
+                data: [],
             };
         default:
             return state;

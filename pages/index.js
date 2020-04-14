@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { getMovies } from '../actions';
 import { initialState, reducer } from '../reducer';
 import { GET_MOVIE_REQUEST, GET_MOVIE, GET_MOVIE_FAILURE } from '../constant';
-import '../styles.scss';
 
 export default function Index() {
     const [movie, setMovie] = useState('spiderman');
@@ -20,10 +19,17 @@ export default function Index() {
         });
         try {
             const response = await (await getMovies({ movie })).json();
-            dispatch({
-                type: GET_MOVIE,
-                payload: response,
-            });
+
+            if (response.Response === 'False') {
+                dispatch({
+                    type: GET_MOVIE_FAILURE,
+                });
+            } else {
+                dispatch({
+                    type: GET_MOVIE,
+                    payload: response,
+                });
+            }
         } catch (error) {
             dispatch({
                 type: GET_MOVIE_FAILURE,
@@ -38,8 +44,8 @@ export default function Index() {
         <>
             <Search
                 placeholder="input search text"
-                onSearch={(value) => setMovie(value)}
-                enterButton
+                onSearch={(value) => setMovie(value.trim())}
+                enterButton={false}
             />
             {state.loading ? (
                 <div>Loading</div>
