@@ -1,5 +1,5 @@
 import { getMovieDetail } from '../../actions';
-import { Card } from 'antd';
+import { Card, Col, Row } from 'antd';
 
 function MovieDetail({
     Poster,
@@ -9,21 +9,34 @@ function MovieDetail({
     Language,
     Released,
     Writer,
-    ...props
 }) {
-    const { Meta } = Card;
     return (
-        <Card
-            hoverable
-            style={{ width: 240 }}
-            cover={<img alt="example" src={Poster} />}
-        >
-            <Meta
-                title={Title}
-                description={`The movie was directed by ${Director} in following ${Language} 
-                It was Released on ${Released} and writer of this movie is ${Writer}`}
-            />
-        </Card>
+        <div className="site-card-wrapper">
+            <Row gutter={16}>
+                <Col span={8}>
+                    <Card
+                        hoverable
+                        style={{ width: 240 }}
+                        cover={
+                            <img
+                                alt="example"
+                                src={
+                                    Poster !== 'N/A'
+                                        ? Poster
+                                        : 'https://cdn.cwsplatform.com/assets/no-photo-available.png'
+                                }
+                            />
+                        }
+                        title={Title}
+                    >
+                        The movie was directed by {Director} in following
+                        Language -{Language}
+                        It was Released on {Released} and writer of this movie
+                        is {Writer}
+                    </Card>
+                </Col>
+            </Row>
+        </div>
     );
 }
 
